@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 public class Lexer
 {
     public readonly string text;
@@ -20,7 +17,7 @@ public class Lexer
     private void MoveNext()
     {
         position.MoveNext(сurrentSymbol);
-        
+
         if (position.Index < text.Length)
         {
             сurrentSymbol = text[position.Index];
@@ -47,42 +44,43 @@ public class Lexer
             }
             else if (сurrentSymbol == '+')
             {
-                token.Add(new Token(TokenType.Plus, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.Plus, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else if (сurrentSymbol == '-')
             {
-                token.Add(new Token(TokenType.Minus, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.Minus, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else if (сurrentSymbol == '*')
             {
-                token.Add(new Token(TokenType.Multiply, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.Multiply, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else if (сurrentSymbol == '/')
             {
-                token.Add(new Token(TokenType.Divide, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.Divide, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else if (сurrentSymbol == '(')
             {
-                token.Add(new Token(TokenType.LParenthesis, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.LParenthesis, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else if (сurrentSymbol == ')')
             {
-                token.Add(new Token(TokenType.RParenthesis, сurrentSymbol.Value.ToString()));
+                token.Add(new Token(TokenType.RParenthesis, сurrentSymbol.Value.ToString(), position));
                 MoveNext();
             }
             else
             {
-                var posStart = position.Copy(); 
+                var posStart = position.Copy();
                 var symbol = сurrentSymbol;
                 MoveNext();
                 return (new List<Token>(), new IllegalCharError(posStart, position, $"'{symbol}'"));
             }
         }
+        token.Add(new Token(TokenType.EOF, "EOF", position));
         return (token, null);
     }
 
@@ -90,6 +88,7 @@ public class Lexer
     {
         var numStr = string.Empty;
         bool isDot = false;
+        var posStart = position.Copy();
 
         while (сurrentSymbol != null && (Char.IsDigit(сurrentSymbol.Value) || сurrentSymbol == '.'))
         {
@@ -103,8 +102,8 @@ public class Lexer
         }
         if (isDot == false)
         {
-            return new Token(TokenType.Int, numStr);
+            return new Token(TokenType.Int, numStr, posStart, position);
         }
-        return new Token(TokenType.Float, numStr);
+        return new Token(TokenType.Float, numStr, posStart, position);
     }
 }

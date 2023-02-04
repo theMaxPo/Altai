@@ -1,4 +1,5 @@
-public struct Position
+// public struct Position
+public class Position
 {
     public int Index { get; private set; }
     public int Line { get; private set; }

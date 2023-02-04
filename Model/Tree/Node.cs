@@ -17,9 +17,21 @@ public class Node
     public override string ToString()
     {
         var result = "";
-        if (Left != null) result += "(" + Left.ToString() + ", ";
-        result += Token.ToString();
-        if (Right != null) result += $", {Right.ToString()})";
+        if (Right != null && Left != null)
+        {
+            result += "(" + Left.ToString() + ", ";
+            result += Token.ToString();
+            result += $", {Right.ToString()})";
+        }
+        else if (Right != null && Left == null )
+        {
+            result += "(" + Token.ToString() + ", ";
+            result += Right.ToString() + ")";
+        }
+        else
+        {
+            result += Token.ToString();
+        }
         return result;
     }
 }

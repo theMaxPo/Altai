@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Altai
+﻿namespace Altai
 {
     internal class Program
     {
@@ -19,14 +16,6 @@ namespace Altai
                 {
                     Console.WriteLine(tuple.err.ToString());
                 }
-                else
-                {
-                    foreach (var res in tuple.result)
-                    {
-                        Console.Write($"{res} ");
-                    }
-                    Console.WriteLine("");
-                }
             }
         }
 
@@ -36,13 +25,17 @@ namespace Altai
 
             (List<Token> tokens, Error? err) res = lexer.MakeTokens();
 
-            if (res.err == null)
-            {
-                var parser = new Parser(res.tokens);
-                var ast = parser.Parse();
+            if (res.err != null) return res;
+            var parser = new Parser(res.tokens);
+            var ast = parser.Parse();
 
-                Console.WriteLine(ast.ToString());
+            if (ast.Error != null)
+            {
+                Console.WriteLine(ast.Error.ToString());
+                return res;
             }
+            Console.WriteLine(ast.Node.ToString());
+
             return res;
         }
     }

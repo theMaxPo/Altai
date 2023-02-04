@@ -1,5 +1,3 @@
-using System;
-
 public class Error
 {
     protected string ErrorName { get; set; }
@@ -31,11 +29,6 @@ public class Error
         var result = "";
         var textLength = text.Length;
 
-        // # Calculate indices
-        // if (posStart.Index >= 0)
-        Console.WriteLine($"length = {textLength} | posIndex = {posStart.Index}");
-        Console.WriteLine($"last = {text.IndexOf('\n', posStart.Index)}");
-
         var indexStart = Math.Max(text.LastIndexOf('\n', posStart.Index), 0);       // Находим начало строки в которой ошибка
                                                                                     // Если '\n' не найдем => это первая строка(начинается с 0)
 
@@ -45,12 +38,10 @@ public class Error
         var lineCount = posEnd.Line - posStart.Line + 1;
         for (var i = 0; i < lineCount; i++)
         {
-            // # Calculate line columns
             var line = text[indexStart..indexEnd];
             var colStart = (i == 0) ? posStart.Column : 0;
             var colEnd = (i == lineCount - 1) ? posEnd.Column : line.Length - 1;
 
-            // # Append to result
             result += line + '\n';
             result += new string(' ', colStart) + new string('^', (colEnd - colStart));
 
