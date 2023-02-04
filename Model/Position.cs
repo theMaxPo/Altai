@@ -15,7 +15,7 @@ public struct Position
         FileText = fileText;
     }
 
-    public void MoveNext(char? сurrentSymbol)
+    public void MoveNext(char? сurrentSymbol = null)
     {
         Index++;
         Column++;

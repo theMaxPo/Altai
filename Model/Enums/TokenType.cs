@@ -7,5 +7,6 @@ public enum TokenType
     Multiply,
     Divide,
     LParenthesis,
-    RParenthesis
+    RParenthesis,
+    EOF
 }

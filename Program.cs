@@ -33,7 +33,17 @@ namespace Altai
         private static (List<Token>, Error?) Run(string filrName, string text)
         {
             var lexer = new Lexer(filrName, text);
-            return lexer.MakeTokens();
+
+            (List<Token> tokens, Error? err) res = lexer.MakeTokens();
+
+            if (res.err == null)
+            {
+                var parser = new Parser(res.tokens);
+                var ast = parser.Parse();
+
+                Console.WriteLine(ast.ToString());
+            }
+            return res;
         }
     }
 }
