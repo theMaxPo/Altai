@@ -1,36 +1,60 @@
 public class Interpreter
 {
-    public void Visit(Node node)
+    public Number Visit(Node node)
     {
         if (node.Right != null && node.Left != null)
         {
-            VisitBinOpNode(node);
+            return VisitBinaryOpNode(node);
         }
-        else if (node.Right != null && node.Left == null )
+        else if (node.Right != null && node.Left == null)
         {
-            VisitUnaruOpNode(node);
+            return VisitUnaruOpNode(node);
         }
-        else
+        return VisitNumberNode(node);
+    }
+
+    private Number VisitNumberNode(Node node)
+    {
+        // Console.WriteLine($"Число!");
+        return new Number(Int32.Parse(node.Token.Value));
+    }
+
+    private Number VisitBinaryOpNode(Node node)
+    {
+        // Console.WriteLine($"Двоичный оператор!");
+        var left = Visit(node.Left);
+        var right = Visit(node.Right);
+        Number result = new Number(0);
+
+        if (node.Token.Type == TokenType.Plus)
         {
-            VisitNumberNode(node);
+            result = left.AddedTo(right);
         }
+        else if (node.Token.Type == TokenType.Minus)
+        {
+            result = left.SubbedBy(right);
+        }
+        else if (node.Token.Type == TokenType.Multiply)
+        {
+            result = left.MultedBy(right);
+        }
+        else if (node.Token.Type == TokenType.Divide)
+        {
+            result = left.DivedBy(right);
+        }
+
+        return result;
     }
 
-    private void VisitNumberNode(Node node)
+    private Number VisitUnaruOpNode(Node node)
     {
-        Console.WriteLine($"Число!");
-    }
-
-    private void VisitBinOpNode(Node node)
-    {
-        Console.WriteLine($"Двоичный оператор!");
-        Visit(node.Left);
-        Visit(node.Right);
-    }
-
-    private void VisitUnaruOpNode(Node node)
-    {
-        Console.WriteLine($"Унарный оператор!");
-        Visit(node.Right);
+        // Console.WriteLine($"Унарный оператор!");
+        var number = Visit(node.Right);
+       
+        if (node.Token.Type == TokenType.Minus)
+        {
+            number = number.MultedBy(new Number(-1));
+        }
+        return number;
     }
 }

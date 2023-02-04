@@ -1,7 +1,7 @@
 public class Token
 {
     public TokenType Type { get; private set; }
-    private string Value { get; set; }
+    public string Value { get; set; }
     public Position PosStart { get; private set; }
     public Position PosEnd { get; private set; }
 

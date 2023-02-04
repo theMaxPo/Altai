@@ -64,3 +64,8 @@ public class InvalidSyntaxError : Error
 {
     public InvalidSyntaxError(Position posStart, Position posEnd, string details = "") : base(posStart, posEnd, "Неверный синтаксис", details) { }
 }
+
+public class RunTimeError : Error
+{
+    public RunTimeError(Position posStart, Position posEnd, string details = "") : base(posStart, posEnd, "Ошибка во время выполнения", details) { }
+}

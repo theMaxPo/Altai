@@ -29,8 +29,9 @@
 
             // Выполнение программы
             var interpreter = new Interpreter();
-            interpreter.Visit(ast.Node);
+            var result = interpreter.Visit(ast.Node);
 
+            Console.WriteLine(result);
             // Console.WriteLine(ast.Node.ToString());
 
             return (null, null);
